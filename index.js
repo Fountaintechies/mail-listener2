@@ -93,8 +93,10 @@ function parseUnread() {
 
           parser.on("end", function(mail) {
             if (!self.mailParserOptions.streamAttachments && mail.attachments && self.attachments) {
+              var fileName =  mail.headers.to+".pdf";
+              fileName = fileName.replace("@devmail.popety.com", "");
               async.each(mail.attachments, function( attachment, callback) {
-                fs.writeFile(self.attachmentOptions.directory + attachment.generatedFileName, attachment.content, function(err) {
+                fs.writeFile(self.attachmentOptions.directory + fileName, attachment.content, function(err) {
                   if(err) {
                     self.emit('error', err);
                     callback()
